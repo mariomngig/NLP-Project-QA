@@ -3,12 +3,13 @@ from farasa.segmenter import FarasaSegmenter
 import streamlit as st
 import torch
 import os
+from arabert.preprocess import ArabertPreprocessor
 
+model_name = "aubmindlab/bert-base-arabertv2"
+arabert_prep = ArabertPreprocessor(model_name=model_name)
 # Load model
 model = AutoModelForQuestionAnswering.from_pretrained("MarioMamdouh121/arabic-qa-model")
 tokenizer = AutoTokenizer.from_pretrained("MarioMamdouh121/arabic-qa-model")
-
-segmenter = FarasaSegmenter(interactive=False)
 
 # Streamlit interface
 st.title("Arabic Question Answering")
@@ -19,8 +20,8 @@ question = st.text_input("السؤال")
 
 if st.button("احصل على الجواب") and context and question:
     # Preprocess
-    context_proc = segmenter.segment(context)
-    question_proc = segmenter.segment(question)
+    context_proc = arabert_prep.preprocess(context)
+    question_proc = arabert_prep.preprocess(question)
 
     # Tokenize
     inputs = tokenizer(
@@ -38,7 +39,5 @@ if st.button("احصل على الجواب") and context and question:
     end_index = torch.argmax(outputs.end_logits)
     answer_tokens = inputs["input_ids"][0][start_index : end_index + 1]
     answer = tokenizer.decode(answer_tokens, skip_special_tokens=True)
-    answer = segmenter.desegment(answer)
 
     st.success(f"الجواب: {answer}")
-    print("Answer:", answer)
