@@ -5,8 +5,8 @@ import torch
 import os
 
 # Load model
-model = AutoModelForQuestionAnswering.from_pretrained("checkpoint-2817")
-tokenizer = AutoTokenizer.from_pretrained("checkpoint-2817")
+model = AutoModelForQuestionAnswering.from_pretrained("MarioMamdouh121/arabic-qa-model")
+tokenizer = AutoTokenizer.from_pretrained("MarioMamdouh121/arabic-qa-model")
 
 segmenter = FarasaSegmenter(interactive=False)
 
