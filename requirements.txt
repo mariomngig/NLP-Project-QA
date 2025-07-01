@@ -1,8 +1,0 @@
-torch
-streamlit
-emoji
-arabert
-farasa
-farasapy
-transformers>=4.51.3
-arabert
